@@ -947,6 +947,40 @@ function wp_get_attachment_image_url( $attachment_id, $size = 'thumbnail', $icon
 }
 
 /**
+ * Get the path of an image attachment.
+ *
+ * @since X.X.X
+ *
+ * @param int 				 $attachment_id Image attachment ID.
+ * @param string|array $size 					Optional. Image size to retrieve. Accepts any valid image size, or an array
+ *                                    of width and height values in pixels (in that order). Default 'thumbnail'.
+ * @return string|false Attachment path or false if no image is available.
+ */
+function wp_get_attachment_image_file( $attachment_id, $size = 'thumbnail' ) {
+
+	// get the file array
+	$file = wp_get_attachment_metadata( attachment_id );
+
+	if ( $file ) {
+
+		// get file name
+		$file_name = isset ( $file[ 'sizes' ][ $size ][ 'file' ] ) ? $file[ 'sizes' ][ $size ][ 'file' ] : false;
+
+		// get file path
+		$file_path = _wp_get_attachment_relative_path( $file_name );
+
+		// return path
+		if ( ! empty( $file_path) ) {
+
+			$path = ABSPATH . '/wp-content/uploads/' . trailingslashit( $file_path ) . $file_name;
+			return $path;
+		}
+	}
+
+	return false;
+}
+
+/**
  * Get the attachment path relative to the upload directory.
  *
  * @since 4.4.1
