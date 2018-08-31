@@ -532,6 +532,12 @@ function populate_options() {
 		// 4.4.0
 		'medium_large_size_w'             => 768,
 		'medium_large_size_h'             => 0,
+
+		// 4.9.6
+		'wp_page_for_privacy_policy'      => 0,
+
+		// 4.9.8
+		'show_comments_cookies_opt_in'    => 0,
 	);
 
 	// 3.3
@@ -1021,7 +1027,8 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 
 	if ( 1 == $network_id ) {
 		$wpdb->insert(
-			$wpdb->site, array(
+			$wpdb->site,
+			array(
 				'domain' => $domain,
 				'path'   => $path,
 			)
@@ -1029,7 +1036,8 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 		$network_id = $wpdb->insert_id;
 	} else {
 		$wpdb->insert(
-			$wpdb->site, array(
+			$wpdb->site,
+			array(
 				'domain' => $domain,
 				'path'   => $path,
 				'id'     => $network_id,
@@ -1076,7 +1084,7 @@ We hope you enjoy your new site. Thanks!
 --The Team @ SITE_NAME'
 	);
 
-	$misc_exts = array(
+	$misc_exts        = array(
 		// Images.
 		'jpg',
 		'jpeg',
@@ -1173,7 +1181,8 @@ We hope you enjoy your new site. Thanks!
 		$current_site->path      = $path;
 		$current_site->site_name = ucfirst( $domain );
 		$wpdb->insert(
-			$wpdb->blogs, array(
+			$wpdb->blogs,
+			array(
 				'site_id'    => $network_id,
 				'blog_id'    => 1,
 				'domain'     => $domain,
@@ -1201,7 +1210,8 @@ We hope you enjoy your new site. Thanks!
 		$errstr   = '';
 		$hostname = substr( md5( time() ), 0, 6 ) . '.' . $domain; // Very random hostname!
 		$page     = wp_remote_get(
-			'http://' . $hostname, array(
+			'http://' . $hostname,
+			array(
 				'timeout'     => 5,
 				'httpversion' => '1.1',
 			)
